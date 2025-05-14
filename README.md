@@ -1,39 +1,40 @@
-# Your Cursor CRM & Project Manager
+# Your rule content
 
-Welcome! This system helps you manage your contacts, leads, and projects using simple Markdown files. It is designed to be used within an AI-native code editor like Cursor, where your primary way of interacting with it is by talking to me, your AI assistant. I'm designed to be proactive and help you stay organized with minimal explicit instruction for routine tasks.
+- You can @ files here
+- You can use markdown but dont have to
+This repository serves as a lightweight CRM and project management system using Markdown files, primarily managed through interactions with an AI assistant (you!).
 
-## How It Works: A Conversational Approach
+## Directory Structure
 
-Think of me as your operational assistant for this CRM. You can provide information through conversation, paste meeting transcripts, share recollections, or give specific instructions. I'll interpret this information to:
+*   **`./README.md`**: This file.
+*   **`./target-profiles.md`**: Defines ideal client profiles for outreach and qualification.
+*   **`/people/`**: Contains individual files for each key contact. Files include background info, connections, associated projects, and interaction notes.
+*   **`/projects/`**: Contains files for active, confirmed projects (paid work or core initiatives like community building). Each file includes status, participants, overview, action items, and relevant notes.
+*   **`/active_leads/`**: Contains files for potential projects or clients still in the pipeline (qualification, negotiation, etc.). Each file includes a standardized status section (Stage, Next Step, Last Updated) along with project details and discussion summaries.
+*   **`/outreach/`**: Contains files for potential leads or contacts *before* they enter the active pipeline. Used for tracking initial outreach attempts (e.g., LinkedIn/Twitter messages) and prospecting efforts.
 
-*   **Identify and Capture:** When you mention new contacts, companies, or potential opportunities, I'll offer to create the necessary files (`/people/`, `/active_leads/`, `/outreach/`) and populate them with the details you provide.
-*   **Log Interactions & Infer Updates:** If you share a meeting summary, call notes, or even a casual update like "Just got off a call with X, and they said Y," I will:
-    *   Identify the relevant lead, project, or person.
-    *   Summarize key discussion points, decisions, and action items, adding them to the appropriate file(s).
-    *   **Intelligently update status fields:** Based on the context of our conversation (e.g., "Proposal sent to Client X"), I'll infer if `Stage`, `Next Step` (for leads), or `Current Status`, `Next Milestone` (for projects) need updating. I'll always update the `Last Updated` date.
-    *   *For straightforward updates (like adding notes), I'll proceed and then let you know what I did. For more significant inferred changes (like changing a project's core status), I'll state my understanding and intended update, asking for your confirmation before proceeding.*
-*   **Proactively Manage File Lifecycles:**
-    *   **Lead to Project Conversion:** If our conversation indicates a lead has been won (e.g., "Client Y signed the SOW"), I'll recognize this and propose: "It sounds like [Lead Name] has converted to a project. Shall I move the file to `/projects/` and update its status to 'Planning' (or similar)?" Upon your confirmation, I'll handle the move and file updates.
-    *   **Archiving Leads:** If a lead seems unlikely to convert (e.g., "Client A has been unresponsive for a month"), I'll propose: "It sounds like [Lead Name] is unlikely to convert. Shall I archive it? If so, what's the primary reason?" With your go-ahead, I'll move it to `/active_leads/archive/` and update its status.
-    *   **Completing Projects:** If we discuss a project being finished (e.g., "We've delivered the final version of Project X"), I'll propose: "It sounds like [Project Name] is complete. Shall I move it to `/projects/done/` and mark its status as 'Done'?" and proceed upon your confirmation.
+## AI-Assisted Workflow & Proactive Management
 
-## Directory Structure (Where I Keep Things)
+I will proactively manage CRM files based on our conversation. My primary goal is to keep information organized and up-to-date efficiently. I will act on new information and then inform you of the changes made.
 
-*   **`./README.md`**: This guide.
-*   **`./target-profiles.md`**: Defines your ideal client profiles. I can refer to this when you're discussing outreach or new leads. You can also ask me to help update this file by analyzing successful (and unsuccessful) leads, projects, and the people involved, using the `--dump-content` feature of the `status_reporter.py` script to gather data.
-*   **`/people/`**: Individual files for each key contact, filled with info from our conversations.
-*   **`/projects/`**: Files for active, confirmed projects, including their status, participants, overview, and action items I've gathered.
-    *   `/projects/done/`: Where I'll move completed project files.
-*   **`/active_leads/`**: Files for potential projects/clients, with standardized status sections and discussion summaries.
-    *   `/active_leads/archive/`: Where I'll move leads that are no longer active.
-*   **`/outreach/`**: For tracking initial outreach and prospecting efforts before they become active leads.
+**Core Principles:**
 
-## Standard File Structures (How I Organize Information Within Files)
+1.  **Act on Information:** I will interpret your updates (meeting notes, call summaries, casual remarks) to identify necessary actions for contacts, leads, or projects.
+2.  **Check, Then Create or Update:** Before creating any new file (person, lead, project, outreach), I will *always* search for an existing one (`file_search`, `list_dir`).
+    *   **If Found:** I will read it (`read_file`) and incorporate new information or updates using `edit_file`. I will then inform you, e.g., "I've updated [File Name] with the new details."
+    *   **If Not Found:** I will offer to create a new file in the appropriate directory (`/people/`, `/active_leads/`, `/outreach/`), e.g., "It looks like there's no file for [Item Name] yet. Shall I create one?" Upon your confirmation, I will create it, populating it with available details and a standard status block (for leads/projects), and then inform you, e.g., "Okay, I've created the file for [Item Name]."
+3.  **Update & Infer Automatically:**
+    *   I will summarize key points, decisions, and action items, adding them to the relevant file(s) using `edit_file`.
+    *   I will infer and apply status changes (`Stage`, `Next Step` for leads; `Current Status`, `Next Milestone` for projects) based on new information (e.g., if you say "Proposal sent," I will update the lead's `Stage`).
+    *   All file updates will include updating the `Last Updated` field to the current date (I'll run `date +%F` to get this).
+    *   After making these updates, I will inform you, e.g., "I've updated [File Name] with the latest notes and adjusted its status to [New Status]."
 
-To keep things consistent and easy for me to process (and for you to read!):
+## Standardizing File Content
 
-*   **Consistent Headings:** I use standard Markdown headings like `## Status`, `## Overview`, `## Action Items`.
-*   **`/active_leads/` File Status Block:**
+To ensure files can be easily searched and processed (e.g., using `grep`):
+
+*   **Consistent Headings:** Use consistent Markdown headings for sections within files (e.g., `## Status`, `## Overview`, `## Action Items`).
+*   **`/active_leads/` File Structure:** Each file in `/active_leads/` should contain at least the following status block:
     ```markdown
     ## Status
     - **Stage:** [e.g., Qualification, Proposal Sent, Negotiation, Needs Follow-up, Archived - No Conversion]
@@ -41,7 +42,7 @@ To keep things consistent and easy for me to process (and for you to read!):
     - **Last Updated:** [YYYY-MM-DD]
     - **Reason (if Archived):** [Brief reason, e.g., Unresponsive, Went with competitor, Not a good fit]
     ```
-*   **`/projects/` File Status Block:**
+*   **`/projects/` File Structure:** Each file in `/projects/` should contain at least the following status block:
     ```markdown
     ## Status
     - **Current Status:** [e.g., Planning, In Progress, On Hold, Awaiting Feedback, Blocked, Done]
@@ -51,26 +52,45 @@ To keep things consistent and easy for me to process (and for you to read!):
     - **Last Updated:** [YYYY-MM-DD]
     ```
 
-## Using the `status_reporter.py` Script (Via Me)
+## Archiving and Completion
 
-I can run a helpful Python script (`status_reporter.py`) for you:
+While the AI should proactively suggest archiving or completion based on conversational context, you can also explicitly instruct the AI:
 
-1.  **Getting a Status Table:**
-    *   **How to ask:** "Can you run the status reporter?" or "What's the status of my leads and projects?"
-    *   **What I do:** I run `python status_reporter.py`, which scans active leads and projects.
-    *   **Output & My Proactive Follow-up:** I'll show you a table with a "Staleness" column. 
-        *   If any items are marked `>7d old` (not updated in over a week), I **must** proactively ask if you want to provide an update, archive the lead, or mark the project as done.
-        *   If any items show `Staleness: No Date` (because the `Last Updated` date in the file was unclear), I will point this out and ask if you can provide an update or a correct "Last Updated" date for that item.
-        *   Based on your response, I'll then update the file or use commands to move it, following our established rules.
+*   **Archiving Active Leads:**
+    *   Tell the AI: "Archive the [Lead Name] lead. The reason is [reason]."
+    *   The AI will move the file from `/active_leads/` to `/active_leads/archive/` (e.g., `mv active_leads/lead_file.md active_leads/archive/`) and update the status section, using the current date (obtained by me running `date +%F`) for the `Last Updated` field:
+        ```markdown
+        ## Status
+        - **Stage:** Archived - No Conversion
+        - **Next Step:** N/A
+        - **Last Updated:** [YYYY-MM-DD] <!-- AI will fill this with output of date +%F -->
+        - **Reason:** [User-provided reason]
+        ```
+*   **Completing Projects:**
+    *   Tell the AI: "Mark the [Project Name] project as done."
+    *   The AI will move the project file from `/projects/` to `/projects/done/` (e.g., `mv projects/project_file.md projects/done/`) and update its status section, using the current date (obtained by me running `date +%F`) for the `Completion Date` and `Last Updated` fields:
+        ```markdown
+        ## Status
+        - **Current Status:** Done
+        - **Next Milestone:** N/A
+        - **Completion Date:** [YYYY-MM-DD] <!-- AI will fill this with output of date +%F -->
+        - **Last Updated:** [YYYY-MM-DD] <!-- AI will fill this with output of date +%F -->
+        ```
 
-2.  **Getting Full Content for Summarization (e.g., for a larger LLM context window):
-    *   **How to ask:** "Dump all active leads for summarization." or "I need the text of all people files."
-    *   **What I do:** I use `python status_reporter.py --dump-content [leads|projects|people]`.
-        *   `python status_reporter.py --dump-content leads` (for active leads)
-        *   `python status_reporter.py --dump-content projects` (for active projects)
-        *   `python status_reporter.py --dump-content people` (for all people files)
-    *   **Output:** I provide the full Markdown content of each relevant file, clearly separated, which you can then copy.
+## Utility Scripts
 
----
+### Status Reporter (`status_reporter.py`)
+This script, located in the root of the workspace, serves two main purposes:
 
-Just start talking, and I'll help you keep things in order!
+1.  **Default Behavior (Status Table):**
+    *   Running `python status_reporter.py` without arguments will scan the `/active_leads/` (excluding `/active_leads/archive/`) and `/projects/` (excluding `/projects/done/`) directories.
+    *   It will output a formatted table to the console summarizing the status of each found lead and project file based on its `## Status` block. The table will include a "Staleness" column, indicating if an item hasn't been updated in over a week (e.g., shows ">7d old") or if the date couldn't be parsed (e.g., shows "No Date").
+    *   **When reviewing this output, if any items are marked as stale (e.g., ">7d old"), or show "No Date" for Staleness, you (the AI) should proactively ask the user if they want to provide an update for those specific files (requesting a specific 'Last Updated' date if applicable), or if those files should be archived or marked as done. Based on the user's response, you will then proceed to update the file's status block or use CLI commands to move the file, adhering to the existing rules for archiving leads or completing projects.**
+
+2.  **Dumping Content for Summarization (`--dump-content` option):**
+    *   To get the full content of all active lead files, project files (excluding archived/done ones), or people files for summarization by an LLM (like Cursor), you can use the `--dump-content` option.
+    *   **Usage:**
+        *   To dump all active leads: `python status_reporter.py --dump-content leads`
+        *   To dump all active projects: `python status_reporter.py --dump-content projects`
+        *   To dump all people files: `python status_reporter.py --dump-content people`
+    *   The script will print the full Markdown content of each file in the specified category to standard output, with clear separators (e.g., `--- START FILE: ... ---` and `--- END FILE: ... ---`). This output can be copied and provided as context to an LLM.
