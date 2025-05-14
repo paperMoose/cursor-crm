@@ -1,0 +1,57 @@
+---
+description: When a target profile or ICP is mentioned follow these rules. This is how you analyze and create that file. 
+globs: 
+alwaysApply: false
+---
+# Rule: Updating Target Profiles
+
+This rule outlines how the AI assistant should help update the `target-profiles.md` file based on information from existing leads, projects, and people.
+
+## Workflow for Updating `target-profiles.md`
+
+1.  **User Request:** The user will explicitly ask to update or generate insights for `target-profiles.md`. For example, "Can you help me update the target profiles?" or "Let's refine our target profiles based on recent activity."
+
+2.  **Gather Information:**
+    *   The AI will use the `status_reporter.py` script to gather comprehensive data. This typically involves running:
+        *   `python status_reporter.py --dump-content leads`
+        *   `python status_reporter.py --dump-content projects`
+        *   `python status_reporter.py --dump-content people`
+    *   The AI will inform the user that it's gathering this information.
+
+3.  **Analyze Content:**
+    *   The AI will analyze the dumped content from these files.
+    *   The analysis should focus on identifying:
+        *   Common characteristics of successful leads/clients (e.g., industry, company size, role of contact, expressed needs).
+        *   Key challenges or goals mentioned across multiple projects.
+        *   Demographics or backgrounds of key people involved in successful projects or strong leads.
+        *   Any recurring patterns or themes that might indicate a valuable target segment.
+
+4.  **Propose Updates:**
+    *   Based on the analysis, the AI will propose specific additions or modifications to the `target-profiles.md` file.
+    *   Proposals should be clear and actionable. For example:
+        *   "I've noticed that several recent successful projects (Project X, Project Y) involved clients in the 'renewable energy sector' who were looking for 'automation solutions'. Should we add a profile for 'Renewable Energy Companies Seeking Automation'?"
+        *   "Many of our key contacts for won deals (James M., Sarah L.) are 'VPs of Operations'. Should we emphasize this role in one of our existing profiles, or create a new one?"
+        *   "Based on the challenges highlighted in leads like Lead A and Project B, it seems 'data integration for legacy systems' is a common pain point. Perhaps we should refine a profile to target companies struggling with this?"
+
+5.  **User Confirmation and Application:**
+    *   The AI will present its findings and suggestions to the user for review and confirmation.
+    *   Upon user approval, the AI will edit the `target-profiles.md` file to incorporate the agreed-upon changes.
+    *   The AI should strive to maintain the existing structure of `target-profiles.md` unless a change in structure is explicitly discussed and approved.
+
+## Example Interaction
+
+**User:** "Hey, can we update our target profiles? I feel like we've learned a lot from recent projects."
+
+**AI:** "Certainly! I can help with that. I'll start by gathering information from our current leads, projects, and people files using the `status_reporter.py` script. This might take a moment."
+
+**(AI runs the dump commands)**
+
+**AI:** "Okay, I've reviewed the data. I've noticed a pattern: three of our recently converted leads, which are now active projects (Project Alpha, Project Beta, Project Gamma), are all small to medium-sized e-commerce businesses that were specifically looking to improve their customer retention strategies. The key contact person was usually the Head of Marketing or a Marketing Manager.
+
+Shall I draft a new profile in `target-profiles.md` for 'SMB E-commerce Businesses seeking Customer Retention Solutions', highlighting 'Head of Marketing' as a key contact?"
+
+**User:** "Yes, that sounds like a great addition. Please go ahead."
+
+**(AI edits `target-profiles.md` as discussed)**
+
+**AI:** "I've added the new profile to `target-profiles.md`. Is there anything else you'd like to adjust or add?"
