@@ -1,6 +1,6 @@
-# Your AI-Powered CRM & Project Manager
+# Your Cursor CRM & Project Manager
 
-Welcome! This system helps you manage your contacts, leads, and projects using simple Markdown files. Your primary way of interacting with it is by talking to me, your AI assistant. I'm designed to be proactive and help you stay organized with minimal explicit instruction for routine tasks.
+Welcome! This system helps you manage your contacts, leads, and projects using simple Markdown files. It is designed to be used within an AI-native code editor like Cursor, where your primary way of interacting with it is by talking to me, your AI assistant. I'm designed to be proactive and help you stay organized with minimal explicit instruction for routine tasks.
 
 ## How It Works: A Conversational Approach
 
