@@ -1,18 +1,20 @@
 # Your Cursor CRM & Project Manager
 
+**IMPORTANT: This system is designed to be run and managed *exclusively* within the Cursor AI-native code editor. Your primary way of interacting with it is by talking to me, your AI assistant, directly in the Cursor chat.**
+
 Welcome! This system helps you manage your contacts, leads, and projects using simple Markdown files. It is designed to be used within an AI-native code editor like Cursor, where your primary way of interacting with it is by talking to me, your AI assistant. I'm designed to be proactive and help you stay organized with minimal explicit instruction for routine tasks.
 
-## How It Works: A Conversational Approach
+## How It Works: A Conversational Approach (It's Simple!)
 
-Think of me as your operational assistant for this CRM. You can provide information through conversation, paste meeting transcripts, share recollections, or give specific instructions. I'll interpret this information to:
+Think of me as your operational assistant for this CRM. **You just talk to me, and I handle the file management.** You can provide information through conversation, paste meeting transcripts, share recollections, or give specific instructions. I'll interpret this information to:
 
-*   **Identify and Capture:** When you mention new contacts, companies, or potential opportunities, I'll offer to create the necessary files (`/people/`, `/active_leads/`, `/outreach/`) and populate them with the details you provide.
+*   **Identify and Capture:** When you mention new contacts, companies, or potential opportunities, I'll notice and offer to create the necessary files (`/people/`, `/active_leads/`, `/outreach/`) and populate them with the details you provide. **You don't need to manually create files.**
 *   **Log Interactions & Infer Updates:** If you share a meeting summary, call notes, or even a casual update like "Just got off a call with X, and they said Y," I will:
     *   Identify the relevant lead, project, or person.
     *   Summarize key discussion points, decisions, and action items, adding them to the appropriate file(s).
     *   **Intelligently update status fields:** Based on the context of our conversation (e.g., "Proposal sent to Client X"), I'll infer if `Stage`, `Next Step` (for leads), or `Current Status`, `Next Milestone` (for projects) need updating. I'll always update the `Last Updated` date.
     *   *For straightforward updates (like adding notes), I'll proceed and then let you know what I did. For more significant inferred changes (like changing a project's core status), I'll state my understanding and intended update, asking for your confirmation before proceeding.*
-*   **Proactively Manage File Lifecycles:**
+*   **Proactively Manage File Lifecycles (I'll suggest these things!):**
     *   **Lead to Project Conversion:** If our conversation indicates a lead has been won (e.g., "Client Y signed the SOW"), I'll recognize this and propose: "It sounds like [Lead Name] has converted to a project. Shall I move the file to `/projects/` and update its status to 'Planning' (or similar)?" Upon your confirmation, I'll handle the move and file updates.
     *   **Archiving Leads:** If a lead seems unlikely to convert (e.g., "Client A has been unresponsive for a month"), I'll propose: "It sounds like [Lead Name] is unlikely to convert. Shall I archive it? If so, what's the primary reason?" With your go-ahead, I'll move it to `/active_leads/archive/` and update its status.
     *   **Completing Projects:** If we discuss a project being finished (e.g., "We've delivered the final version of Project X"), I'll propose: "It sounds like [Project Name] is complete. Shall I move it to `/projects/done/` and mark its status as 'Done'?" and proceed upon your confirmation.
@@ -53,7 +55,7 @@ To keep things consistent and easy for me to process (and for you to read!):
 
 ## Using the `status_reporter.py` Script (Via Me)
 
-I can run a helpful Python script (`status_reporter.py`) for you:
+I can run a helpful Python script (`status_reporter.py`) for you. **You don't need to run this script yourself; just ask me to do it.**
 
 1.  **Getting a Status Table:**
     *   **How to ask:** "Can you run the status reporter?" or "What's the status of my leads and projects?"
@@ -73,4 +75,4 @@ I can run a helpful Python script (`status_reporter.py`) for you:
 
 ---
 
-Just start talking, and I'll help you keep things in order!
+**Remember: Just start talking to me in Cursor, and I'll help you keep things in order!**
