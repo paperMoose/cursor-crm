@@ -1,0 +1,105 @@
+---
+description: Task Context System with Specification Gulf Prevention
+globs: 
+alwaysApply: true
+---
+
+# Task Context System
+
+When the user says "create a task context file for this" or indicates a task needs more context, create a detailed file in `/task_context`.
+
+## Core Principles
+- **No guesswork** — ask until you have enough detail to execute without assumptions.
+- **Spec completeness before save** — don’t finalize until key fields are complete.
+- **Spec confidence is explicit** — acknowledge uncertainty.
+- **Evolving scope is tracked** — every change has a date and reason.
+
+---
+
+## Task Context File Structure
+File name: `task_context/task-name-YYYY-MM-DD.md`
+
+### Template
+```markdown
+# [Task Name]
+**Created:** [YYYY-MM-DD]
+**Status:** Not Started | In Progress | Blocked | Complete | Archived
+**Priority:** High | Medium | Low
+**Estimated Time:** [Time estimate]
+**Spec Confidence:** High | Medium | Low
+
+## Context & Background
+[Why this task exists, what led to it, relevant background. Include dependencies, constraints, and related systems.]
+
+## Objective
+[Exact success criteria, in measurable terms. Ask: “What does done look like?”]
+
+## Risks & Unknowns
+[List uncertainties, possible pitfalls, open questions.]
+
+## Resources & Links
+- [Relevant link 1]
+- [Relevant link 2]
+- [People to contact]
+
+## Updates
+### [YYYY-MM-DD]
+[Summary of change, new detail, blocker, or insight.]
+
+## Related Tasks
+- [Related Task Name](mdc:{RELATIVE_PATH_STARTING_AT_REPO_ROOT}/related-task-YYYY-MM-DD.md)
+
+## Completion Criteria
+- [ ] Deliverable 1 *(added YYYY-MM-DD, from update YYYY-MM-DD)*
+- [ ] Deliverable 2 *(added YYYY-MM-DD, from update YYYY-MM-DD)*
+ 
+ ## Source Context
+ [Paste the originating conversation, brief, or input verbatim. Include timestamps/speakers if present. Add a one-line summary of decisions if helpful.]
+````
+
+---
+
+## Specification Gulf Prevention Questions
+
+Before finalizing the file, ask the user:
+
+1. **Success** — What does done look like?
+2. **Failure** — What would “wrong” look like?
+3. **Dependencies** — What has to be done first?
+4. **Constraints** — Budget, deadlines, resources, compliance needs?
+5. **Unknowns** — What do we not yet know that could change the task?
+6. **Impact** — Who or what is blocked until this is done?
+
+---
+
+## Linking Rules
+
+* Always link tasks in other files using:
+  `[Task Name](mdc:{PATH_FROM_REPO_ROOT}/task-name-YYYY-MM-DD.md)`
+* Replace simple line items in todos with the above link format.
+* Never duplicate task files; keep one source of truth.
+
+---
+
+## Update & Maintenance Rules
+
+1. Log each update in **Updates** with a timestamp and summary.
+2. When adding checklist items, note the date and reference the update.
+3. When complete, set `Status: Complete` and move to `/task_context/completed`.
+4. When abandoned, set `Status: Archived` and move to `/task_context/archive`.
+
+
+---
+
+## Example Update Entry
+
+### 2025-08-14
+
+Added onboarding doc requirement after discussion with PM.
+Checklist item: “Draft onboarding doc” *(added 2025-08-14, from update 2025-08-14)*
+
+```
+
+---
+
+

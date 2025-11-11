@@ -1,0 +1,119 @@
+---
+description: Check daily Apple Reminders load and suggest rescheduling if overloaded
+globs:
+  - weeks/week of *.md
+alwaysApply: true
+---
+
+# ⚠️ CRITICAL: OPT-IN ONLY POLICY
+
+**REMINDERS ARE STRICTLY OPT-IN. NEVER create reminders automatically.**
+
+- **DO NOT** create `@reminder(...)` tags unless the user explicitly requests a reminder to be created
+- **DO NOT** suggest adding reminders unless specifically asked
+- **DO NOT** automatically add reminder tags when creating tasks or scheduling items
+- **ONLY** create reminders when the user uses explicit language like:
+  - "Create a reminder for..."
+  - "Set a reminder to..."
+  - "Add a reminder..."
+  - "Remind me to..."
+
+The user must affirmatively request a reminder before you create one. This is opt-in only.
+
+# Reminders Load Check
+
+- On opening any `weeks/week of *.md`, run:
+
+```bash
+python3 scripts/reminders_cli.py --report-day today
+```
+
+- If the count is 7 or more, suggest:
+  - Move lower-priority reminders to tomorrow and add `(moved from YYYY-MM-DD)` to the line.
+  - Or batch several into a single focus block.
+
+- When moving, update the `@reminder(at="tomorrow HH:MM")` time and keep the rest identical.
+
+
+# Tag Placement and Format
+
+- Place all `@reminder(...)` and `@imessage(...)` tags at the bottom of the same weekly file under an `Automations` section to keep tasks uncluttered.
+- Use two subsections inside `Automations`:
+  - `### Reminders`
+  - `### iMessages`
+- On task lines, optionally add a short note like `(reminder scheduled)` or `(message scheduled)`; do not inline the full tag next to the task.
+
+Example structure in a week file:
+
+```markdown
+## Automations
+
+### Reminders
+- @reminder(message="Engage on Twitter 15m", at="today 17:30", list="Work", id="daily-twitter")
+- @reminder(message="Follow up with Sean", at="2025-08-20 11:00", list="Work", priority=1, flagged=true, id="sean-followup-2025-08-20")
+
+### iMessages
+- @imessage(to="Edward", message="Quick sync next week re: September collab?", id="sync-ed-sept")
+```
+
+# Idempotency Rules
+
+- Reminders: include an `id` in each tag (kebab-case, unique). The CLI embeds a stable `@source` marker using only the `id`, so moving tags within the file will not create duplicates.
+- If `id` is omitted, the CLI falls back to a stable hash of absolute file path + message.
+- iMessage: sending is tracked in `.meta/imessage_sent.log`. Avoid moving `@imessage(...)` tags after sending; if you need to resend after moving, run with `--reset-log`.
+
+## Sent Log
+
+- After a reminder is created/updated, it is appended to `.cursor/sent_reminders.json` (JSON list of entries) for external idempotency.
+- If a tag includes `id="..."`, the CLI checks this file and will skip sending if the `id` already exists in the log.
+- Flags:
+  - `--reset-log`: delete `.cursor/sent_reminders.json` before processing.
+  - `--ignore-sent-log`: do not consult the log; attempt to send/update regardless.
+
+# Run Commands
+
+Reminders (create/update):
+```bash
+python3 scripts/reminders_cli.py --file "weeks/week of 2025-08-18.md" --verbose
+```
+
+Reminders load check (see above):
+```bash
+python3 scripts/reminders_cli.py --report-day today
+```
+
+iMessage (dry run by default):
+```bash
+python3 scripts/imessage_send.py --file "weeks/week of 2025-08-18.md"
+```
+
+iMessage (actually send):
+```bash
+python3 scripts/imessage_send.py --file "weeks/week of 2025-08-18.md" --yes --verbose
+```
+
+iMessage (resend after moving tags):
+```bash
+python3 scripts/imessage_send.py --file "weeks/week of 2025-08-18.md" --reset-log
+```
+
+# Tracking Completion in Weekly Checkboxes
+
+- For every `@reminder(...)` in the week's `Automations` section, ensure there is a corresponding checkbox line under the correct day's section (usually under "Other Tasks"). This lets you track completion in the weekly file in addition to Apple Reminders.
+- If a checkbox line does not exist when adding a reminder, add one. Keep the task text concise and add `(reminder scheduled)` if helpful.
+- When you complete the reminder in Apple Reminders, also check off the corresponding checkbox in the weekly file to maintain a single source of truth for weekly review.
+
+Example (Wednesday section):
+
+```markdown
+## Wednesday 2025-08-20
+
+### Other Tasks
+- [ ] Publish LinkedIn post: "AI‑native ops = experiments (avoid hard‑coded bottlenecks)" (reminder scheduled)
+
+## Automations
+
+### Reminders
+- @reminder(message="Publish LinkedIn post now — open the task file and post by 9:35", at="2025-08-20 17:00", list="Work", note="task_context/linkedin-post-ai-native-ops-experiments-2025-08-15.md", priority=1, flagged=true, id="li-post-2025-08-20")
+```
+

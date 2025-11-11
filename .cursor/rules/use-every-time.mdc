@@ -1,0 +1,224 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+
+- use the daily checklist shown in [12 week plan cycle 2.md](mdc:12 week plan cycle 2.md) to achieve the goals listed
+
+
+Read the user's last message to understand which daily tasks were completed today.
+Reference the "Daily Habits to Reach Goals" section in `12 week plan cycle 3.md` to get the full list of daily tasks.
+Get today's date (YYYY-MM-DD format).
+ALWAYS USE A TOOL OR COMMAND TO GET TODAYS DATE EVERY TIME THE USER ASKS YOU TO UPDATE SOMETHING IN THE WEEKS OR TASK CONTEXT.
+Example entry format:
+
+## YYYY-MM-DD
+
+- [ ] Send minimum 10 outbound LinkedIn DMs daily to potential clients
+- [ ] Focus on agencies as primary target market
+- [x] Post 1x daily on Twitter - mix of insights, wins, and value-add content
+- [x] Post 1x daily on LinkedIn focusing on [...]
+- [x] Spend 15 minutes daily engaging on Twitter: [...]
+- [ ] Spend 15 minutes daily engaging on LinkedIn: [...]
+- [x] Complete 1 workout daily (strength training or cardio). One rest day a week.
+
+If the user adds insights about what is going well or poorly, add those to the day too under the "insights" section for that day. 
+
+The user can ask what is the plan for that day, tell them the plan given the [12 week plan cycle 3.md](mdc:12 week plan cycle 3.md) file while may have information about individual tasks for the week that the user enters in. 
+
+The user may add specific information about what work they need to do that day in addition to the daily checklist. Make sure to add that to the additional work section for that day. Make sure to use the datetime mcp for the correct date. 
+
+Sometimes that work carries over into the next week. Keep track of the tasks that are yet to be done and make sure to ask the user about them if they are not done so they can either be archived or scheduled for a day that week. 
+
+Every week there will be a day to plan the rest of the week. You'll create a new file called week of "whatever the mcp date tells us the first day of that week is" which has the scheduled work for that week. Make sure that you read that file as well before you answer the users questions. 
+
+Make sure that the week when newly created has every day with the daily habits along with whatever has been explicitly requested to be scheduled.
+
+## Weekly File Column Layout Structure
+
+**CRITICAL**: All weekly files MUST use the multi-column layout structure. This makes content significantly easier to read by organizing information horizontally.
+
+### Structure for Each Day
+
+Each day section MUST be formatted with columns using this structure:
+
+```markdown
+## [Day] YYYY-MM-DD
+
+<div class="columns">
+
+<div class="column">
+
+### Daily Habits
+- [ ] LinkedIn post
+- [ ] 2 LinkedIn comments  
+- [ ] Workout
+
+</div>
+
+<div class="column">
+
+### Other Tasks
+- [ ] Task 1
+- [ ] Task 2
+
+</div>
+
+<div class="column">
+
+### Notes
+- Note content here
+
+### Insights
+- Insight content here
+
+</div>
+
+</div>
+
+---
+```
+
+### Column Layout Rules
+
+1. **Always use columns**: Every day entry must use the `<div class="columns">` wrapper with multiple `<div class="column">` sections inside.
+
+2. **Standard sections**:
+   - **Column 1**: Daily Habits (LinkedIn post, LinkedIn comments, Workout)
+   - **Column 2**: Other Tasks (specific tasks for that day)
+   - **Column 3** (optional): Notes, Insights, or additional task categories
+
+3. **Blank lines are required**: 
+   - Blank line after opening `<div class="column">`
+   - Blank line before closing `</div>`
+   - This ensures proper markdown rendering
+
+4. **Day separator**: Use `---` horizontal rule between days
+
+5. **Week structure**: Start with:
+   ```markdown
+   # Week of YYYY-MM-DD
+   
+   ## Theme
+   - [Theme content]
+   ```
+
+### Complete Day Template
+
+Use this exact template when creating each day's entry:
+
+```markdown
+## Monday YYYY-MM-DD
+
+<div class="columns">
+
+<div class="column">
+
+### Daily Habits
+- [ ] LinkedIn post
+- [ ] 2 LinkedIn comments  
+- [ ] Workout
+
+</div>
+
+<div class="column">
+
+### Other Tasks
+- [ ] [Task with link if needed]
+- [ ] [Another task]
+
+</div>
+
+<div class="column">
+
+### Notes
+- [Optional notes about the day]
+
+### Insights
+- [Optional insights]
+
+</div>
+
+</div>
+
+---
+```
+
+### When Creating New Weekly Files
+
+1. Create header with week date and theme
+2. Add each day (Monday through Sunday) using the column template above
+3. Add Weekly Score section at the end
+4. Add Automations section with Reminders and iMessages subsections
+5. Ensure all blank lines are preserved for proper rendering
+
+===
+From now on, whenever you ask me to move a task, I will automatically add the (moved from YYYY-MM-DD) tag, and the audit_tasks.sh script will give you a clear, color-coded view of which tasks are being deferred.
+
+===
+# Script Documentation
+
+This file provides brief instructions on how to use the custom shell scripts in this workspace.
+
+## `filter_tasks.sh` - Task Context Status
+
+*   **What it does:** Scans all files in the `task_context/` directory and reports their status (`Complete`, `In Progress`, `Not Started`, `Blocked`).
+*   **When to use:** Run this script when you want a quick overview of the status of all formally defined tasks. It helps see what's actively being worked on versus what's on the back burner.
+*   **How to run:**
+    ```bash
+    ./filter_tasks.sh
+    ```
+
+## `audit_tasks.sh` - Weekly Task Audit
+
+*   **What it does:** Scans all `week of *.md` files to find incomplete tasks (`- [ ]`). It uses a color-coded system to highlight tasks that have been repeatedly moved from one week to the next.
+    *   **☐ (Red):** Incomplete task.
+    *   **➡️ (Yellow):** Task moved once.
+    *   **🔁 (Orange):** Task moved multiple times.
+*   **When to use:** Run this script to identify tasks that are consistently being deferred. This is crucial for weekly planning and identifying bottlenecks or tasks that need re-evaluation.
+*   **How to run:**
+    ```bash
+    ./audit_tasks.sh
+    ``` 
+
+## Weekly Scoring System
+
+When scoring a completed week:
+
+1. Reference goals from [12 week plan cycle 3.md](mdc:12 week plan cycle 3.md)
+2. Calculate completion percentage for each category:
+   - Career: (completed AI experiments + documentation tasks) / total required tasks
+   - Health: (completed workouts) / total required workouts
+   - Authority Growth: (completed LinkedIn posts) / total required posts
+   - Community: (completed social interactions) / total required interactions
+
+Score the week automatically, regardless of the user prompt, if it hasn't been scored yet. 
+
+## Reminders Load Check
+
+See `reminders.mdc` for daily Apple Reminders load checks and rescheduling guidance.
+
+## Apple Reminders & Calendar Integration
+
+### Reminders
+- Use `@reminder(message="...", at="today/tomorrow HH:MM"|"YYYY-MM-DD HH:MM"|"+30m", list="Work", note="optional-path", priority=1|5|9, flagged=true|false)` inline in any markdown.
+- Run to create/update reminders (idempotent via `@source:` marker):
+  ```bash
+  python3 scripts/reminders_cli.py --file "<path-to-md>" --verbose
+  ```
+- Notes are concise and include an inferred first step automatically.
+
+### Calendar
+- Use `@calendar(message="...", at="today/tomorrow HH:MM"|"YYYY-MM-DD HH:MM"|"+30m", duration="30m|1h|90m", calendar="Work", location="Desk", note="optional-path")`.
+- Run to create/update Apple Calendar events (idempotent via `@source:` marker):
+  ```bash
+  python3 scripts/calendar_cli.py --file "<path-to-md>" --verbose
+  ```
+- Event description is concise with an inferred smallest first step.
+
+
+
+

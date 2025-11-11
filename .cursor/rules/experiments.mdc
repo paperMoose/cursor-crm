@@ -1,0 +1,50 @@
+---
+alwaysApply: false
+---
+# Networking Experiments System
+
+When the user mentions networking experiments, help them create and track experiments in the `/experiments` directory using this framework:
+
+The experiment will have instructions on how to modify the weeks it's assigned to. 
+
+## Experiment File Structure
+Each experiment should be a markdown file: `experiments/YYYY-MM-DD-experiment-name.md`
+
+## Experiment Template
+```markdown
+# [Experiment Name]
+**Start Date:** [Date]
+**Duration:** [1-2 weeks]
+**Status:** Planning/Active/Complete
+
+## Hypothesis
+"I wonder what happens if..." [Curiosity-driven question, NOT outcome-focused]
+
+## Process Goal (NOT Outcome Goal)
+- Specific actions I will take
+- Frequency/quantity 
+- Time commitment
+- What "done" looks like for the PROCESS
+
+## Success Metrics (Process-Focused) (work with the user to determine these, don't just generate them)
+- [ ] Did I complete the planned actions?
+- [ ] What did I learn about people/myself?
+- [ ] How did it feel? (Energy level, resistance, flow state)
+
+## Daily Log
+### Day 1: [Date]
+- Action taken:
+- Immediate feeling:
+- Any responses/reactions:
+
+### Day 2: [Date]
+[etc...]
+
+## Reflection (After 1-2 weeks)
+- What surprised me?
+- What felt natural vs forced?
+- What would I do differently?
+- What experiment should I try next?
+
+## Key Insight
+[One sentence about what this taught me about networking/people/myself]
